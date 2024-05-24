@@ -1,0 +1,151 @@
+{% extends 'seller-header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-10 blog-block">
+                            <div class="blog-image" height=430px width=300px>
+                               
+                                <img src="{{product.product_image.url}}" alt="image" class="img-responsive" style="max-width:60%; height:460px; margin-left:20rem;">
+                                
+                            </div>
+                            
+                        </div>
+                       </div>
+                </div>
+                <div class="col-md-4 sidebar">
+                    <form class="contact-form" action="{%url 'seller-edit-product' pk=product.pk%}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                           {%if msg%}
+                                <b  style="color: red">{{msg}}</b>
+                            {%endif%}<br>
+                          <div class="form-group">
+                            
+                            <select name="product_category" >
+                                
+                                {% if product.product_category == "Electronics" %}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics" selected>Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Woman">Woman</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other">Other</option>
+
+                                {%elif product.product_category == "Men"%}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics" >Electronics</option>
+                                    <option  value="Men"selected>Men</option>
+                                    <option  value="Woman">Woman</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other">Other</option>
+                                    
+                                {%elif product.product_category == "Women"%}
+
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics">Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Women" selected>Woman</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other">Other</option>
+
+                                {%elif product.product_category == "Baby & Kids"%}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics">Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Woman">Woman</option>
+                                    <option  value="Baby & Kids" selected>Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other">Other</option>
+
+                                {%elif product.product_category == "Home & Kitchens"%}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics">Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Woman">Woman</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens" selected>Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other">Other</option>
+
+                                {%elif product.product_category == "Books"%}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics">Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Woman">Woman</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books" selected>Books</option>
+                                    <option  value="Other">Other</option>
+
+                                {%elif product.product_category == "Other"%}
+                                    <option>---Select Product categories---</option>
+                                    <option  value="Electronics">Electronics</option>
+                                    <option  value="Men">Men</option>
+                                    <option  value="Women">Women</option>
+                                    <option  value="Baby & Kids">Baby & Kids</option>
+                                    <option  value="Home & Kitchens">Home & Kitchens</option>
+                                    <option  value="Books">Books</option>
+                                    <option  value="Other" selected>Other</option>
+                                
+                                {%endif%}
+                            </select>
+                          </div>
+                          <div class="form-group">
+
+                              <label for="product_name">Product Name*</label>
+                              <input type="text" class="form-control" name="product_name" value="{{product.product_name}}" placeholder="Product Name">
+                          </div>
+                          <div class="form-group">
+                              <label for="product_price">Product Price*</label>
+                              <input type="number" class="form-control" name="product_price" value="{{product.product_price}}" placeholder="Product Price">
+                          </div>
+
+                             
+                          <div class="form-group">
+                            <label for="product_desc">Product description*</label>
+                            <input type="text" class="form-control" name="product_desc" value="{{product.product_desc}}" placeholder="Product description">
+                        </div>
+            
+                        <div class="form-group">
+                            <input type="file" class="form-control" name="product_image" >
+                        </div>
+                          
+                          
+
+                          
+                          <button type="submit" class="btn btn-blue">Update Product</button>
+                      </form>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+    
+    
+  </body>
+</html>
+{% endblock %}

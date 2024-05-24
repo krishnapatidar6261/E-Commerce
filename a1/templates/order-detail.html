@@ -1,0 +1,149 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-12 blog-block">
+                            <div class="blog-image" height=500px width=300px>
+                               
+                                <img src="{{order.product.product_image.url}}" alt="image" class="img-responsive"  style="max-width:60%; height:460px; margin-left:20rem;" >
+                                <br><br>
+
+
+                            </div>
+                            
+                        </div>
+
+                        <div style="margin-left:20rem;">
+                            
+                            <!--Trackinh-->
+                        {% if order.order_approve == True %}
+
+                            <span >Your Order Shipped</span>
+
+
+
+                        {% endif %}
+
+
+
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+                <div class="col-md-4 sidebar">
+                    <div class="sidebar-inner">
+                        
+                        <div class="side-recent">
+                            <h4>Order Summry</h4>
+                        </div>
+                     
+                    </div>
+                    
+                    <h4>Transaction Id </h4>
+                    <b> {{ order.transaction_id }}</b><br><br>
+
+                    <h4>Product Name</h4>
+                    <b>{{order.product.product_name}}</b>
+                        <br><br>
+                    <h4>Product Description</h4>
+                    {{order.product.product_desc}}<br><br><br><br>
+                    <!--Rupay Symbol Image-->
+                        <!--Rupay Symbol End-->
+                    
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Product Price</h4>
+                            <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="15px" width="15px" style="vertical-align: middle;">
+                            <b>{{ order.product.product_price }}</b>
+                        </span>
+                        
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Total Price</h4>
+                            <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="15px" width="15px" style="vertical-align: middle;">
+
+                            <b>{{ order.total_price }}</b>
+                        </span>
+                        
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Product Quantity</h4>
+                            <b>{{ order.product_qty }}</b>
+                        </span>
+                        
+                <br><br>
+                <!-- Delivery Addresss-->
+                <div class="sidebar-inner">
+                        
+                    <div class="side-recent">
+                        <h4>Delivery Address</h4>
+                    </div>
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Address</h4>
+                            <b>{{ order.deli.address }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">City</h4>
+                            <b>{{ order.deli.city }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">State</h4>
+                            <b>{{ order.deli.state }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Country</h4>
+                            <b>{{ order.deli.country }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Postal</h4>
+                            <b>{{ order.deli.postal_code }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Contact</h4>
+                            <b>{{ order.deli.contact }}</b>
+                        </span>
+
+                    <br><br>
+                    
+                        
+                 
+                </div>
+
+
+                    
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+    
+  
+    
+
+
+    </body>
+</html>
+{% endblock %}

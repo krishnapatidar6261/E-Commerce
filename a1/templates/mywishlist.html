@@ -1,0 +1,41 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+
+            <div class="rec-blog">
+                <div class="container">
+                    <div class="rec-blog-inner">
+                        <div class="blog-title">
+                            <span>My Wishlist-{{product.count}}</span>
+                        </div>
+                        <div class="row">
+                          {%for i in wishlist %}
+                            <div class="col-md-4 blog-ct">
+                                <a href="{%url 'product-detail' pk=i.product.pk %}"><img src="{{i.product.product_image.url}}" style="max-height: 300px; max-width: 300px; min-height: default; min-width: 300px; " alt="{{i.product.product_name}}" class="img-responsive"></a>
+                                <div class="blog-ct-title">
+                                    <a href="{%url 'product-detail' pk=i.product.pk %}">{{i.product.product_name}}</a>
+                                    <span></span>
+                                </div>
+                            </div>
+                          {% endfor %}
+                        </div> 
+                    </div>
+                  </div>
+            </div>
+                
+            
+  </body>
+</html>
+{% endblock %}

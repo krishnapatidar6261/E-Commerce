@@ -1,0 +1,61 @@
+{% extends 'seller-header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-12 blog-block">
+                            <div class="blog-image" height=500px width=300px>
+                               
+                                <img src="{{product.product_image.url}}" alt="image" class="img-responsive" style="max-width:60%; height:460px; margin-left:20rem;">
+                                
+                            </div>
+                            
+                        </div>
+                       <a style="margin-left:23rem;" href="{%url 'seller-edit-product' pk=product.pk%}"><input type="button" value="Edit" class="btn btn-primary"></a>
+                       <a href="{%url 'seller-delete-product' pk=product.pk%}" ><input type="button" value="Delete" class="btn btn-danger"></a>
+                    </div>
+                </div>
+                <div class="col-md-4 sidebar">
+                    <div class="sidebar-inner">
+                        
+                        <div class="side-recent">
+                            <h4>Detail</h4>
+                        </div>
+                     
+                    </div>
+                    <h4>Product Name</h4>
+                    <b>{{product.product_name}}</b>
+                        <br><br>
+                    <h4>Product Description</h4>
+                    {{product.product_desc}}<br><br><br><br>
+                    <!--Rupay Symbol Image-->
+                   <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" height=25px width=25px>
+                        <!--Rupay Symbol End-->
+                        <b>{{product.product_price}}</b>
+                    
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+    
+    
+  </body>
+</html>
+{% endblock %}

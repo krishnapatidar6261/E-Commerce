@@ -1,0 +1,170 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+
+    <div id="cat-nav">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <!-- <div class="container-fluid"> -->
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cat-nav-mega">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="cat-nav-mega">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{%url 'electronics'%}">ELECTRONICS</a></li>
+                    
+                        <li><a href="{%url 'men'%}">MEN </a></li>
+                        <li><a href="{%url 'women'%}">WOMEN </a></li>
+                        <li><a href="{%url 'baby&kids'%}">BABY & KIDS </a></li>
+                        <li><a href="{%url 'books'%}">BOOKS & MEDIA </a></li>
+                        <li><a href="{%url 'home&kitchen'%}">HOME & KITCHEN </a></li>
+                        <li><a href="{%url 'more-stores'%}">MORE STORES </a></li>
+                        <li><a href="{%url 'index'%}">OFFERS ZONE </a></li>
+                        <li class="cat-img-off"><img src="{%static 'images/offers.png'%}" alt="off"></li>
+                    </ul>
+                     
+                </div><!-- /.navbar-collapse -->
+                <!--</div> -->
+            </nav>
+        </div>
+        </div> 
+
+      <div id="wrapper" class="homepage-1"> <!-- wrapper -->
+  
+          
+          <div id="main-slider"> <!-- Slider -->
+              <div id="home-slider" class="owl-carousel owl-theme">
+                  <div class="item">
+                      <img src="https://cdn.godrej.com/img/Category/GODREJBOYCECOVERWEBBANNER1920WX600HPX06_25060030.jpg" alt="slide-1" class="img-responsive">
+                      <div class="slider-desc">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="slide-offers-left">
+                                          <div class="slide-offers-title">ELECTRONICS</div>
+                                          <p>New & Lastest collection<br/>arraival in believe store</p>
+                                          <a href="{%url 'electronics'%}" class="btn btn-blue">Shop now</a>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                       <div class="slide-offers-right">
+                                          <div class="slide-offers-title"><span>ELECTRONICS</span></div>
+                                          <p>New & Lastest collection<br/>arraival in believe store</p>
+                                          <a href="{%url 'electronics'%}" class="btn btn-magenta">Shop now</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item">
+                      <img src="{%static 'images/slider-2.jpg'%}" alt="slide-2" class="img-responsive">
+                      <div class="slider-desc">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="slide-offers-left">
+                                          <div class="slide-offers-title"><span>50% Price cut</span><br/>for online order</div>
+                                          <p>New & Fvhresh collection<br/>arraival in believe store</p>
+                                          <a href="{%url 'electronics'%}" class="btn btn-blue">Shop now</a>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                       
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div> <!-- Slider -->
+          
+              
+              <div class="newest" >
+                  <div class="container">
+                      <div class="newest-content">
+                          <div class="newest-tab">
+                              <ul id="myTab" class="nav nav-tabs newest" role="tablist">
+                                  <li role="presentation" class="active">
+                                      <a href="{%url 'electronics'%}" id="cat-1" role="tab" data-toggle="tab" aria-controls="1" aria-expanded="true">All</a>
+                                  </li>
+                               </ul>
+                              
+                              
+                              <div id="myTabContent" class="tab-content">
+                                  <div role="tabpanel" class="tab-pane fade in active" id="1" aria-labelledby="cat-1">
+                                    <div class="row clearfix">
+                                        {%for i in product %}
+                                          <div class="col-md-3 prdct-grid">
+                                              <div class="product-fade">
+													<div class="product-fade-wrap">
+                                                        <div id="product-image">
+                                                            <div class="item"><img src="{{i.product_image.url}}" alt="Images" class="img-responsive" ></div>
+                                                            
+                                                        </div>
+														<div class="product-fade-ct"><!-- Hover start-->
+                                                            <div class="product-fade-control">
+                                                                {%if request.session.email%}
+                                                                <div class="to-left">
+                                                               
+                                                                    <a href="{%url 'product-detail' pk=i.pk%}">View Detail</a>
+                                                                    <a href="{%url 'mywishlist'%}" class="btn btn-to-wishlist">View-Wishlist</a>
+                                                                </div>
+                                                                
+                                                                <div class="clearfix"></div>
+                                                                <a href="{%url 'add-to-cart' pk=i.pk%}" class="btn btn-to-cart"><span class="bag"></span><span>Add To cart</span><div class="clearfix"></div></a>
+                                                                {% else %}
+                                                                <a href="{%url 'login'%}" class="btn btn-to-cart"><span></span><span>Login for more Option</span><div class="clearfix"></div></a>
+                                                                {%endif%}
+                                                            </div><!-- Hover end-->
+                                                            
+														</div>
+													</div>
+                                              </div>
+                                              
+                                              <div class="product-name">
+                                                  <a href="{%url 'product-detail' pk=i.pk%}">{{i.product_name}}</a>
+                                              </div>
+                                              
+                                              <div class="product-price">
+                                                   Rs {{i.product_price}}
+                                              </div>
+                                          </div>
+                                        
+                                          {% endfor %}
+                                      </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              
+                </div> 
+            
+    </div> <!-- wrapper -->
+
+    
+  </body>
+</html>
+{% endblock %}

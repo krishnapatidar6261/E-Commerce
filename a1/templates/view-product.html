@@ -1,0 +1,41 @@
+{% extends 'seller-header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+
+            <div class="rec-blog">
+                <div class="container">
+                    <div class="rec-blog-inner">
+                        <div class="blog-title">
+                            <span>Your Product-{{products.count}}</span>
+                        </div>
+                        <div class="row">
+                          {%for i in products%}
+                            <div class="col-md-4 blog-ct">
+                                <a href="{%url 'product-detail' pk=i.pk %}"><img src="{{i.product_image.url}}"  alt="{{i.product_name}}" class="img-responsive"></a>
+                                <div class="blog-ct-title">
+                                    <a href="{%url 'product-detail' pk=i.pk %}">{{i.product_name}}</a>
+                                    <span>{{i.product_date}}</span>
+                                </div>
+                              </div>
+                          {% endfor %}
+                        </div> 
+                    </div>
+                  </div>
+            </div>
+                
+            
+  </body>
+</html>
+{% endblock %}

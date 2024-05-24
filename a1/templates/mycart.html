@@ -1,0 +1,88 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+
+            <div class="rec-blog">
+                <div class="container">
+                    <div class="rec-blog-inner">
+                        <div class="blog-title">
+                            <span>My Cart-{{cart.count}}</span>
+                        </div>
+                        <div class="row">
+                          {%for i in cart %}
+                            <div class="col-md-4 blog-ct">
+                                <a href="{%url 'product-detail' pk=i.product.pk %}"><img src="{{i.product.product_image.url}}" style="max-height: 300px; max-width: 300px; min-height: default; min-width: 300px; " alt="{{i.product.product_name}}" class="img-responsive"></a>
+                                <div class="blog-ct-title">
+                                    <a href="{%url 'product-detail' pk=i.product.pk %}">{{i.product.product_name}}</a>
+                                    <form action="{% url 'change-qty' %}" method="post">
+                                      {% csrf_token %}
+                                      <span><input type="hidden" name="pk" value="{{i.pk}}" width="10px", max="10" min="1" ></span>
+                                      <span><input type="number" name="product_qty" value="{{i.product_qty}}" width="10px", max="10" min="1" onchange="this.form.submit();" ></span>
+                                    </form>
+                                    <span>RS: {{i.total_price}}<span>
+                                </div>
+                            </div>
+                          {% endfor %}
+                         
+                        </div> 
+                    </div>
+                  </div>
+            </div>
+            
+          <!--
+              <form method="post" style="Background-color: yellow; ">
+                <div style="Background-color: yellow; "><b>Total Price: {{net_price}}</b>
+
+                <input type="hidden" id="net_price" name="amount" value="{{net_price}}">
+                <button type="button"  id="checkout-button" style="height=20px; width=20px; font-weight:bold; Background-color: #55c2da">Checkout</button>
+              </form>
+            </div>
+            
+             -->   
+            <script type="text/javascript">
+              var stripe = Stripe('pk_test_51NdrRaSFrpNPRRx9e6CabgkSHhz0V8oZvNwxE7diw4jiIwfwn19Wiz5i65CDh1t8tIbhf5AhLfz7tBlgWUcdrb6W00LYoI2MpE');
+              var checkoutButton = document.getElementById('checkout-button');
+          
+              checkoutButton.addEventListener('click', function() { 
+                  fetch('/create-checkout-session/', {
+                  method: 'POST',
+                  headers:{
+                      'Accept': 'application/json',
+                      'X-Requested-With': 'XMLHttpRequest',
+                  },
+                  body: JSON.stringify({'post_data':'{{net_price}}'})
+              })
+           .then(function(response) {
+           return response.json();
+           })
+           .then(function(session) {
+           return stripe.redirectToCheckout({ sessionId: session.id });
+           })
+           .then(function(result) {
+           // If `redirectToCheckout` fails due to a browser or network
+           // error, you should display the localized error message to your
+           // customer using `error.message`.
+           if (result.error) {
+           alert(result.error.message);
+           }
+           })
+           .catch(function(error) {
+           console.error('Error:', error);
+           });
+           });
+           </script>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-12 blog-block">
+                            <div class="blog-image" height=500px width=300px>
+                               
+                                <img src="{{ product.product_image.url }}" alt="image" class="img-responsive"  style="max-width:60%; height:460px; margin-left:20rem;" >
+                                
+                            </div>
+                            
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col-md-4 sidebar">
+                    <div class="sidebar-inner">
+                        
+                        <div class="side-recent">
+                            <h4>Order Summry</h4>
+                        </div>
+                     
+                    </div>
+                    <h4>Product Name</h4>
+                    <b>{{product.product_name}}</b>
+                        <br><br>
+                    <h4>Product Description</h4>
+                    {{product.product_desc}}<br><br><br><br>
+                    <!--Rupay Symbol Image-->
+                        <!--Rupay Symbol End-->
+                    
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Product Price</h4>
+                            <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="15px" width="15px" style="vertical-align: middle;">
+                            <b>{{ product.product_price }}</b>
+                        </span>
+                        
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Total Price</h4>
+                            <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="15px" width="15px" style="vertical-align: middle;">
+
+                            <b>{{ net_price }}</b>
+                        </span>
+                        
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Product Quantity</h4>
+                            <b>{{ product_qty }}</b>
+                        </span>
+                        
+                <br><br>
+                <!-- Delivery Addresss-->
+                <div class="sidebar-inner">
+                        
+                    <div class="side-recent">
+                        <h4>Delivery Address</h4>
+                    </div>
+                    <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Address</h4>
+                            <b>{{ deli.address }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">City</h4>
+                            <b>{{ deli.city }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">State</h4>
+                            <b>{{ deli.state }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Country</h4>
+                            <b>{{ deli.country }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Postal</h4>
+                            <b>{{ deli.postal_code }}</b>
+                        </span>
+                        <br>
+                        <span style="display: flex; align-items: center;">
+                            <h4 style="margin: 0; padding-right: 5px;">Contact</h4>
+                            <b>{{ deli.contact }}</b>
+                        </span>
+
+                    <br><br>
+                    
+                        
+                 
+                </div>
+
+
+                    
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+    <form method="post" style="Background-color: yellow; ">
+        <div style="Background-color: yellow; "><b>Total Price: {{net_price}}</b>
+
+        <input type="hidden" id="net_price" name="amount" value="{{net_price}}">
+        <button type="button"  id="checkout-button" style="height=20px; width=20px; font-weight:bold; Background-color: #55c2da">Checkout</button>
+      </form>
+
+    <script type="text/javascript">
+        var stripe = Stripe('pk_test_51NdrRaSFrpNPRRx9e6CabgkSHhz0V8oZvNwxE7diw4jiIwfwn19Wiz5i65CDh1t8tIbhf5AhLfz7tBlgWUcdrb6W00LYoI2MpE');
+        var checkoutButton = document.getElementById('checkout-button');
+        var data={
+            'post_data': '{{product.product_price}}',
+            'pro_id': '{{ product.pk }}',
+            'qty': '{{ product_qty }}',
+
+        }
+        checkoutButton.addEventListener('click', function() { 
+            fetch('/create-checkout-session/', {
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+
+            body: JSON.stringify(data)
+        })
+     .then(function(response) {
+     return response.json();
+     })
+     .then(function(session) {
+     return stripe.redirectToCheckout({ sessionId: session.id });
+     })
+     .then(function(result) {
+     // If `redirectToCheckout` fails due to a browser or network
+     // error, you should display the localized error message to your
+     // customer using `error.message`.
+     if (result.error) {
+     alert(result.error.message);
+     }
+     })
+     .catch(function(error) {
+     console.error('Error:', error);
+     });
+     });
+     </script>
+  
+  
+    
+
+
+    </body>
+</html>
+{% endblock %}

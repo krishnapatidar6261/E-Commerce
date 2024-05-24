@@ -1,0 +1,97 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-12 blog-block">
+                            <div class="blog-image" height=500px width=300px>
+                               
+                                <img src="{{product.product_image.url}}" alt="image" class="img-responsive"  style="max-width:60%; height:460px; margin-left:20rem;" >
+                                
+                            </div>
+                            
+                        </div>
+                    {%if request.session.email%}
+                        {% if cart_flag == True %}
+                        <a style="margin-left:23rem;" href="{%url 'remove-from-cart' pk=product.pk%}"><input type="button" value="Remove From Cart" class="btn btn-danger"></a>
+
+                        {% else %}
+                       
+                       <a href="{%url 'add-to-cart' pk=product.pk%}"><input type="button" value="Add To Cart" class="btn btn-primary"></a>
+                       {% endif %}
+
+                       {% if wishlist_flag == True %}
+                       <a href="{%url 'remove-from-wishlist' pk=product.pk%}"><input type="button" value="Remove from Wishlist" class="btn btn-danger"></a>
+                       {% else %}
+                       <a href="{%url 'add-to-wishlist' pk=product.pk%}"><input type="button" value="Add To Wishlist" class="btn btn-primary"></a>
+                        {% endif %}
+                    {% else %}
+                    <a href="{%url 'login' %}" ><input type="button" value="Buy Product" class="btn btn-danger"></a>
+                    {%endif%}
+
+                    </div>
+                </div>
+                <div class="col-md-4 sidebar">
+                    <div class="sidebar-inner">
+                        
+                        <div class="side-recent">
+                            <h4>Detail</h4>
+                        </div>
+                     
+                    </div>
+                    <h4>Product Name</h4>
+                    <b>{{product.product_name}}</b>
+                        <br><br>
+                    <h4>Product Description</h4>
+                    {{product.product_desc}}<br><br><br><br>
+                    <!--Rupay Symbol Image-->
+                        <!--Rupay Symbol End-->
+
+                        
+                        <form method="post" action="{% url 'order-address' %}">
+                            <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="25px" width="25px">
+
+                            <b>{{ product.product_price }}</b>
+                            
+                            {% if request.session.email %}
+                            {% csrf_token %}
+                            
+                            <span>Quantity: <input type="number" name="product_qty" width="10px", max="10" min="1" value="1"></span><br><br>
+
+
+                            <input type="hidden" id="net_price" name="amount" value="{{ product.product_price }}">&nbsp; &nbsp;&nbsp;
+                            <input type="hidden" id="pro_id" name="pro_id" value="{{ product.id }}">&nbsp; &nbsp;&nbsp;
+
+                            <button type="submit" class="btn btn-primary" >Buy</button>
+
+                                <br><br>
+
+                            {% endif %}
+                            
+                          </form>
+                    
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+         
+    </body>
+</html>
+{% endblock %}

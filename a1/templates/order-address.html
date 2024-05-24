@@ -1,0 +1,207 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Believe</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+   
+  </head>
+  <body>
+    <div class="container">
+        <div class="blog">
+            <div class="row">
+                <div class="col-md-8 blog-content detail">
+                    <div class="row">
+                        <div class="col-md-10 blog-block">
+                            <div class="blog-image" height=430px width=300px>
+                               
+                                <img src="{% static '/images/home addr.jpg' %}" alt="image" class="img-responsive" style="max-width:60%; height:460px; margin-left:20rem;">
+                                
+                            </div>
+                            
+                           
+                        </div>
+                       </div>
+                </div>
+                <div class="col-md-4 sidebar">
+                    <form class="contact-form" id="order-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if msg %}
+                            <b style="color: red">{{ msg }}</b><br>
+                        {% endif %}
+                        
+                        
+                        <div class="form-group">
+                                <select name="country" id="country" required>
+                                    <option disabled selected>---Select Delevery Country Code---</option>
+                                    <option value="IN">IN</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                    
+                                </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address*</label>
+                            <input type="text" class="form-control" name="address" placeholder="Address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postal-code">Postal Code</label>
+                            <input type="number" id="postal-code" class="form-control" name="postal_code" placeholder="Postal Code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City*</label>
+                            <input type="text" class="form-control" id="city_name" name="city" placeholder="City" required>
+                            <span style="color:red;" id="city_error">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State*</label>
+                            <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                            <span style="color:red;" id="state_error">
+
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact">Phone Number*</label>
+                            <input type="number" class="form-control" name="contact" placeholder="Phone Number" required>
+                        </div>
+                        <input type="hidden" id="net_price" name="amount" value="{{ net_price }}">
+                        <input type="hidden" id="pro_id" name="pro_id" value="{{ pro_id }}">
+                        <input type="hidden" id="product_qty" name="product_qty" value="{{ product_qty }}">
+
+
+                        <!-- Rest of the form fields -->
+                        Net Price: 
+                        <img src="https://img.freepik.com/free-icon/rupee-indian_318-41989.jpg?w=2000" alt="RS" height="25px" width="25px">
+
+                         <b>{{ net_price }}</b>
+                         &nbsp;&nbsp;&nbsp;&nbsp;
+                       <a href="{% url 'order-address' %}"> <button type="submit" name="address_updation" class="btn btn-blue">Save & Continue</button>  </a>
+                    </form>
+                    <br><br>
+                    <form method="post" >
+                        
+                        <input type="hidden" id="net_price" name="amount" value="{{ net_price }}">
+                        <input type="hidden" id="pro_id" name="pro_id" value="{{ pro_id }}">
+                        <input type="hidden" id="product_qty" name="product_qty" value="{{ product_qty }}">
+                      </form>
+                   
+                </div>
+            </div>
+        </div>
+       
+    </div>
+            
+    <script>
+        $(document).ready(function(){
+            $('#postal-code').on('input', function(){
+                lookupPostalCode();
+            });
+        
+            $('#country').on('change', function(){
+                lookupPostalCode();
+            });
+        
+            function lookupPostalCode() {
+                var postalCode = document.getElementById("postal-code").value;
+                var country = document.getElementById("country").value;
+                var countryCodeList = {
+                    "Afghanistan": "AF",
+                    "Albania": "AL",
+                    "Algeria": "DZ",
+                    "Andorra": "AD",
+                    "Angola": "AO",
+                    // Add more entries as needed...
+                    "United States": "US",
+                    "United Kingdom": "GB",
+                    "India": "IN"
+                };
+        
+                var countryCode = countryCodeList[country];
+        
+                if(postalCode.length >= 5){
+                    $.ajax({
+                        url: 'http://api.geonames.org/postalCodeLookupJSON',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            postalcode: postalCode,
+                            country: countryCode,
+                            username: 'krishnapatidar6261' // Your Geonames username
+                        },
+                        success: function(result){
+                            console.log("Result ",result);
+        
+                            if(result.postalcodes && result.postalcodes.length > 0){
+                                var city = result.postalcodes[0].adminName2;
+                                var state = result.postalcodes[0].adminName1
+                                var country = result.postalcodes[0].adminName1
+        
+
+                                $('#city_name').val(city);
+                                $('#state').val(state);
+
+                                
+                            } else {
+                                document.getElementById("city_error").innerHTML ="City Not Found";
+                                document.getElementById("state_error").innerHTML ="State Not Found";
+
+                            }
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
+                }
+            }
+        });
+        </script>
+        
+   <!-- Payement Integration-->
+        
+   <script type="text/javascript">
+    var stripe = Stripe('pk_test_51NdrRaSFrpNPRRx9e6CabgkSHhz0V8oZvNwxE7diw4jiIwfwn19Wiz5i65CDh1t8tIbhf5AhLfz7tBlgWUcdrb6W00LYoI2MpE');
+    var checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', function() { 
+        fetch('/create-checkout-session/', {
+        method: 'POST',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({'post_data': '{{net_price}}',
+        'pro_id': '{{pro_id}}'})
+    })
+ .then(function(response) {
+ return response.json();
+ })
+ .then(function(session) {
+ return stripe.redirectToCheckout({ sessionId: session.id });
+ })
+ .then(function(result) {
+ // If `redirectToCheckout` fails due to a browser or network
+ // error, you should display the localized error message to your
+ // customer using `error.message`.
+ if (result.error) {
+ alert(result.error.message);
+ }
+ })
+ .catch(function(error) {
+ console.error('Error:', error);
+ });
+ });
+ </script>
+
+
+</body>
+</html>
+{% endblock %}
