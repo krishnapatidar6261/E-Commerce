@@ -11,7 +11,7 @@ import json
 from django.contrib.auth.decorators import login_required
 
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
-YOUR_DOMAIN = 'https://www.pythonanywhere.com'
+YOUR_DOMAIN = 'https://127.0.0.1:8000/'
 
 
 @csrf_exempt

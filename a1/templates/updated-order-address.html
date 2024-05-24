@@ -179,10 +179,13 @@
                                 var city = result.postalcodes[0].adminName2;
                                 var state = result.postalcodes[0].adminName1
                                 var country = result.postalcodes[0].adminName1
-        
                                 $('#city_name').val(city);
                                 $('#state').val(state);
+                                document.getElementById("city_error").innerHTML =" ";
+                                document.getElementById("state_error").innerHTML ="";
                             } else {
+                                $('#city_name').val("");
+                                $('#state').val("");
                                 document.getElementById("city_error").innerHTML ="City Not Found";
                                 document.getElementById("state_error").innerHTML ="State Not Found";
 

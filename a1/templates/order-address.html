@@ -102,7 +102,7 @@
             
     <script>
         $(document).ready(function(){
-            $('#postal-code').on('input', function(){
+            $('#postal-code').on('change', function(){
                 lookupPostalCode();
             });
         
@@ -148,9 +148,13 @@
 
                                 $('#city_name').val(city);
                                 $('#state').val(state);
+                                document.getElementById("city_error").innerHTML =" ";
+                                document.getElementById("state_error").innerHTML ="";
 
                                 
                             } else {
+                                $('#city_name').val("");
+                                $('#state').val("");
                                 document.getElementById("city_error").innerHTML ="City Not Found";
                                 document.getElementById("state_error").innerHTML ="State Not Found";
 
